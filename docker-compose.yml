@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  stackhubapi:
+    image: python:3.10-slim-buster
+    working_dir: /app
+    command: sh -c "pip3 install -r requirements.txt && python3 -m uvicorn --app-dir=./src app:app --host=0.0.0.0"
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+
+
+  stackhubdb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - stackhub-data:/data/db
+
+
+volumes:
+  stackhub-data:
